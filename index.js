@@ -20,10 +20,10 @@ const cors = require('cors');
 //     port: "3306"
 // });
 
-con.connect(function(err) {
-    if(err) throw err;
-    console.log("connected!");
-})
+// con.connect(function(err) {
+//     if(err) throw err;
+//     console.log("connected!");
+// })
 
 app.use(function (req, res, next) {
     //Enabling CORS
