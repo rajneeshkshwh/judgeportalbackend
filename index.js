@@ -3,29 +3,30 @@ const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mysql = require('mysql');
+const con = require('./connection');
+// const mysql = require('mysql');
 
-const con = mysql.createConnection({
-    host: 'remotemysql.com',
-    user: 'E939GyEwfl',
-    password: 'P2gnSj7Fbg',
-    database: 'E939GyEwfl',
-    port: "3306"
-});
+// const con = mysql.createConnection({
+//     host: 'remotemysql.com',
+//     user: 'E939GyEwfl',
+//     password: 'P2gnSj7Fbg',
+//     database: 'E939GyEwfl',
+//     port: "3306"
+// });
 
-connection();
+// connection();
 
-function connection() {
-    con.connect(function(err) {
-        if(err){
-            console.log("before reconnecting");
-            connection();
-            console.log("after reconnecting");
-            throw err;
-        } 
-        console.log("connected!");
-    })
-}
+// function connection() {
+//     con.connect(function(err) {
+//         if(err){
+//             console.log("before reconnecting");
+//             connection();
+//             console.log("after reconnecting");
+//             throw err;
+//         } 
+//         console.log("connected!");
+//     })
+// }
 
 // setTimeout(function () { 
 //     con.connect(function(err) {
