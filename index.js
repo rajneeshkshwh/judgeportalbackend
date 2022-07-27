@@ -13,12 +13,26 @@ const con = mysql.createConnection({
     port: "3306"
 });
 
-setTimeout(function () { 
+connection();
+
+function connection() {
     con.connect(function(err) {
-        if(err) throw err;
+        if(err){
+            console.log("before reconnecting");
+            connection();
+            console.log("after reconnecting");
+            throw err;
+        } 
         console.log("connected!");
     })
- }, 5000);
+}
+
+// setTimeout(function () { 
+//     con.connect(function(err) {
+//         if(err) throw err;
+//         console.log("connected!");
+//     })
+//  }, 5000);
 
 
 
@@ -54,7 +68,7 @@ app.post('/checkcode', (req,res) => {
 })
 
 app.get('/getindividualdata', (req,res) => {
-    con.query("SELECT * FROM judges", function (err, result, fields) {
+    con.query("SELECT * FROM judges" , function (err, result, fields) {
         if (err) throw err;
         res.send(result);
       });
@@ -63,7 +77,7 @@ app.get('/getindividualdata', (req,res) => {
 app.post('/getindividualdatabyid', (req,res) => {
     const id = req.body.id;
     var sql = 'SELECT * FROM judges WHERE id = ' + mysql.escape(id);
-    con.query(sql, function (err, result, fields) {
+    con.query({sql, timeout:40000}, function (err, result, fields) {
         if (err) throw err;
         res.send(result);
       });
