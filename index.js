@@ -64,6 +64,6 @@ app.post('/getindividualdatabyid', (req,res) => {
       });
 })
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`Example app listening on ${port}`);
 });
