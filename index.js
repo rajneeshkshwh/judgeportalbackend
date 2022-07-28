@@ -106,12 +106,45 @@ app.get('/getindividualdata', (req,res) => {
       });
 })
 
-app.get('/getresponsedata', (req,res) => {
+app.post('/getresponsedata', (req,res) => {
+    const judge = req.body.judge;
+    const array = [];
     con.query("SELECT * FROM response" , function (err, result, fields) {
         if (err) throw err;
+
         res.send(result);
       });
 })
+
+app.get('/judges/:id', function(req, res) {
+    const array = [];
+    const rt = req.params.id;
+    con.query("SELECT * FROM response", function (err, result, fields) {
+        if (err) throw err;
+        for(var i = 0;i<result.length; i++){
+            if(rt=='one'){
+                array.push(result[i].one);
+            }
+            else if(rt=='two'){
+                array.push(result[i].two);
+            }
+            else if(rt=='three'){
+                array.push(result[i].three);
+            }
+            else if(rt=='four'){
+                array.push(result[i].four);
+            }
+            else if(rt=='five'){
+                array.push(result[i].five);
+            }
+            else if(rt=='six'){
+                array.push(result[i].six);
+            }
+        }
+        console.log(array);
+        res.send(array);
+      }); 
+  });
 
 app.post('/updatescore', (req,res) => {
     const id = req.body.id;
