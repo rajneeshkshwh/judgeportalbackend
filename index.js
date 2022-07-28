@@ -75,6 +75,13 @@ app.get('/getindividualdata', (req,res) => {
       });
 })
 
+app.get('/getresponsedata', (req,res) => {
+    con.query("SELECT * FROM response" , function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+      });
+})
+
 app.post('/updatescore', (req,res) => {
     const id = req.body.id;
     const judge = req.body.judge;
