@@ -35,7 +35,20 @@ const mysql = require('mysql');
 //     })
 //  }, 5000);
 
-
+const corsOpts = {
+    origin: '*',
+  
+    methods: [
+      'GET',
+      'POST',
+    ],
+  
+    allowedHeaders: [
+      'Content-Type',
+    ],
+  };
+  
+  app.use(cors(corsOpts));
 
 app.use(function (req, res, next) {
     //Enabling CORS
@@ -60,7 +73,25 @@ app.post('/checkcode', (req,res) => {
     if(req.body.code){
         const pin = req.body.code;
         if(pin=='12345' || pin=='12346' || pin=='12347' || pin=='12348' || pin=='12349' || pin=='12340'){
-            res.send('OK')
+            
+            if(pin=='12345'){
+                res.send({status: 'OK', judge: 'one'})
+            }
+            else if(pin=='12346'){
+                res.send({status: 'OK', judge: 'two'})
+            }
+            else if(pin=='12347'){
+                res.send({status: 'OK', judge: 'three'})
+            }
+            else if(pin=='12348'){
+                res.send({status: 'OK', judge: 'four'})
+            }
+            else if(pin=='12349'){
+                res.send({status: 'OK', judge: 'five'})
+            }
+            else{
+                res.send({status: 'OK', judge: 'six'})
+            }
         }
         else(
             res.send('Invalid Code')
@@ -86,7 +117,13 @@ app.post('/updatescore', (req,res) => {
     const id = req.body.id;
     const judge = req.body.judge;
     const score = req.body.score;
-    con.query('UPDATE `response` SET `?` = ? WHERE `response`.`id` = ?',[parseInt(judge), parseInt(score), parseInt(id)] , function (err, result, fields) {
+
+    console.log(id,judge,score);
+    // con.query('UPDATE `response` SET ? = ? WHERE `id` = ?',[judge, parseInt(score), parseInt(id)] , function (err, result, fields) {
+    //     if (err) throw err;
+    //     res.send('updated');
+    //   });
+    con.query('UPDATE response SET '+ judge +' = ? WHERE id = ?',[ parseInt(score) ,parseInt(id)] , function (err, result, fields) {
         if (err) throw err;
         res.send('updated');
       });
