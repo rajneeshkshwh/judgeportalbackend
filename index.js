@@ -4,7 +4,7 @@ const port = 3000;
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const con = require('./connection');
-// const mysql = require('mysql');
+const mysql = require('mysql');
 
 // const con = mysql.createConnection({
 //     host: 'remotemysql.com',
@@ -59,7 +59,7 @@ app.get('/', (req,res) => {
 app.post('/checkcode', (req,res) => {
     if(req.body.code){
         const pin = req.body.code;
-        if(pin=='12345' || pin=='12346' || pin=='12347'){
+        if(pin=='12345' || pin=='12346' || pin=='12347' || pin=='12348' || pin=='12349' || pin=='12340'){
             res.send('OK')
         }
         else(
@@ -72,6 +72,16 @@ app.get('/getindividualdata', (req,res) => {
     con.query("SELECT * FROM judges" , function (err, result, fields) {
         if (err) throw err;
         res.send(result);
+      });
+})
+
+app.post('/updatescore', (req,res) => {
+    const id = req.body.id;
+    const judge = req.body.judge;
+    const score = req.body.score;
+    con.query('UPDATE `response` SET `?` = ? WHERE `response`.`id` = ?',[parseInt(judge), parseInt(score), parseInt(id)] , function (err, result, fields) {
+        if (err) throw err;
+        res.send('updated');
       });
 })
 
