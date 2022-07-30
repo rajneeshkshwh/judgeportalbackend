@@ -145,6 +145,7 @@ app.get('/getleaderboard', (Req,res)=>{
                 array.push({id: responses[i].id, firstname: ids[i].firstname, lastname: ids[i].lastname, score: score});
             }
             array.sort((a,b) => a.score - b.score);
+            array.reverse();
             res.send(array);
         })
     })
