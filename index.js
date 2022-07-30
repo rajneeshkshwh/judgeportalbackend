@@ -99,6 +99,57 @@ app.post('/checkcode', (req,res) => {
     }
 })
 
+app.get('/getleaderboard', (Req,res)=>{
+    const array = [];
+    var responses=[];
+    var ids;
+    con.query("SELECT *FROM response", function(errr,result,fields){
+        if (errr) throw errr;
+        responses = result;
+        con.query("SELECT *FROM judges", function(err,results,fields){
+            if (err) throw err;
+            ids = results;
+            var i = 0;
+            for(i=0;i<responses.length;i++){
+                var score = 0;
+                var no = 0;
+                if(responses[i].one != 0){
+                    score += responses[i].one;
+                    no++;
+                }
+                else if(responses[i].two != 0){
+                    score += responses[i].two;
+                    no++;
+                }
+                else if(responses[i].three != 0){
+                    score += responses[i].three;
+                    no++;
+                }
+                else if(responses[i].four != 0){
+                    score += responses[i].four;
+                    no++;
+                }
+                else if(responses[i].five != 0){
+                    score += responses[i].five;
+                    no++;
+                }
+                else if(responses[i].five != 0){
+                    score += responses[i].five;
+                    no++;
+                }
+                else if(responses[i].six != 0){
+                    score += responses[i].six;
+                    no++;
+                }
+                score = (score!=0 ? score/no : score);
+                array.push({id: responses[i].id, firstname: ids[i].firstname, lastname: ids[i].lastname, score: score});
+            }
+            array.sort((a,b) => a.score - b.score);
+            res.send(array);
+        })
+    })
+})
+
 app.get('/getindividualdata', (req,res) => {
     con.query("SELECT * FROM judges" , function (err, result, fields) {
         if (err) throw err;
